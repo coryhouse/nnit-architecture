@@ -17,9 +17,10 @@ namespace FuelSavings
         public void onBtnCalculateClick(object sender, EventArgs e)
         {
             litDateModified.Text = DateTime.Now.ToLongTimeString();
-            tblResult.Visible = true;
-            lblSavingsOrLoss.InnerText = "Savings";
-            litSavingsOrLoss.Text = CalculateSavings().ToString();
+            trResult.Visible = true;
+            var savingsOrLoss = CalculateSavings();
+            litSavingsOrLoss.Text = savingsOrLoss.ToString();
+            lblSavingsOrLoss.InnerText = savingsOrLoss > 0 ? "Savings" : "Loss";
         }
 
         private decimal CalculateSavings()
@@ -45,11 +46,11 @@ namespace FuelSavings
 
             switch (milesDrivenTimeframe)
             {
-                case "week":
+                case "Week":
                     return (milesDriven * weeksPerYear) / monthsPerYear;
-                case "month":
+                case "Month":
                     return milesDriven;
-                case "year":
+                case "Year":
                     return milesDriven / monthsPerYear;
                 default:
                     throw new ArgumentException("Unknown milesDrivenTimeframe passed: " + milesDrivenTimeframe);
@@ -68,7 +69,7 @@ namespace FuelSavings
             var newFuelCostPerMonth = CalculateMonthlyCost(milesDrivenPerMonth, ppg, newMpg);
             var savingsPerMonth = tradeFuelCostPerMonth - newFuelCostPerMonth;
 
-            return RoundNumber(savingsPerMonth);
+            return Math.Round(savingsPerMonth, 2);
         }
 
         private decimal CalculateMonthlyCost(decimal milesDrivenPerMonth, decimal ppg, int mpg)
@@ -77,17 +78,12 @@ namespace FuelSavings
             return gallonsUsedPerMonth * ppg;
         }
 
-        private decimal RoundNumber(decimal savingsPerMonth)
-        {
-            return savingsPerMonth;
-        }
-
         private bool NecessaryDataIsProvidedToCalculateSavings()
         {
-            return txtNewMpg.Text != string.Empty && Convert.ToInt16(txtNewMpg.Text) > 0
-              && txtTradeMpg.Text != string.Empty && Convert.ToInt16(txtTradeMpg.Text) > 0
-              && txtPpg.Text != string.Empty && Convert.ToDouble(txtPpg.Text) > 0
-              && txtMilesDriven.Text != string.Empty && Convert.ToInt16(txtMilesDriven) > 0;
+            return txtNewMpg.Text != string.Empty
+              && txtTradeMpg.Text != string.Empty
+              && txtPpg.Text != string.Empty
+              && txtMilesDriven.Text != string.Empty;
         }
     }
 }
