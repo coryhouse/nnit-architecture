@@ -1,0 +1,75 @@
+﻿@using FuelSavings.UI.Models
+@model FuelSavingsViewModel
+@{
+    ViewBag.Title = "Fuel Savings Calculator";
+}
+
+<div class="row">
+    <h1>Fuel Savings Calculator</h1>
+    @using (Html.BeginForm("", "", new { }, FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
+    {
+    <table>
+        <tbody>
+            <tr>
+                <td>
+                    <label for="newMpg">New Vehicle MPG</label>
+                </td>
+                <td>
+                    @Html.TextBoxFor(m => m.NewMPG)
+                    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <label for="tradeMpg">Trade-in MPG</label>
+                </td>
+                <td>
+                    @Html.TextBoxFor(m => m.TradeMPG)
+                    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <label for="newPpg">Price per gallon</label>
+                </td>
+                <td>
+                    @Html.TextBoxFor(m => m.PricePerGallon)
+                    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <label for="milesDriven">Miles Driven</label>
+                </td>
+                <td>
+                    @Html.TextBoxFor(m => m.MilesDriven)
+                    miles per
+                    @*@Html.DropDownListFor(m => m.MilesDrivenTimeframe, Model.Timeframes SelectList(Timeframes));*@
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <label>Date Modified</label>
+                </td>
+                <td>
+                    @*@Html.LabelFor(m => m.DateModifed)*@
+                </td>
+            </tr>
+            <tr>
+                <td>&nbsp;</td>
+                <td>
+                    <input type="submit" value="Calculate" class="btn btn-default" />
+                </td>
+            </tr>
+            <tr id="trResult">
+                <td>
+                    
+                </td>
+                <td>
+                    Savings or loss here...
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    }
+</div>
